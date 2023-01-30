@@ -13,28 +13,20 @@ export const Toast = Swal.mixin({
   }
 });
 
-export const getDataFirst = (limit = 10, offset = 0, search = '') => fetch(`https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list?search=${(search)}&limit=${limit}&offset=${offset}`, {
-  method: 'GET',
-  header: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+export const getDataFirst = async (limit = 10, offset = 0, search = '') => {
+  const URL = search !== '' 
+  ? `https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list?search=${(encodeURIComponent(search))}`
+    : `https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list?limit=${limit}&offset=${offset}`
+  const response = await fetch(URL, {
+    method: 'GET',
+  });
+
+  if (!response.ok) {
+    throw new Error("An error has occured");
+
   }
-}).then(res => res.json())
-  .then(
-    (result) => Promise.resolve(
-      result,
-    ),
-    // Note: it's important to handle errors here
-    // instead of a catch() block so that we don't swallow
-    // exceptions from actual bugs in components.
-    (error) => {
-      Toast.fire({
-        icon: 'error',
-        text: 'Server Error',
-      });
-      console.log(error);
-    }
-  );
+  return await response.json();
+}
 
 export const getArea = () => fetch(`https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/option_area`, {
   method: 'GET',
@@ -76,30 +68,30 @@ export const getSize = () => fetch(`https://stein.efishery.com/v1/storages/5e1ed
     }
   );
 
-  export const submitData = async (data) => {
-    const URL = "https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list";
-    const response = await fetch(URL, {
-      method: data.type === 'add' ? "POST" : "PUT",
-      body: JSON.stringify(data.payload),
-    });
-  
-    if (!response.ok) {
-      throw new Error("An error has occured");
-      
-    }
-    return await response.json();
-  };
+export const submitData = async (data) => {
+  const URL = "https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list";
+  const response = await fetch(URL, {
+    method: data.type === 'add' ? "POST" : "PUT",
+    body: JSON.stringify(data.payload),
+  });
 
-  export const deleteData = async (data) => {
-    const URL = "https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list";
-    const response = await fetch(URL, {
-      method: "DELETE",
-      body: JSON.stringify(data),
-    });
-  
-    if (!response.ok) {
-      throw new Error("An error has occured");
-      
-    }
-    return await response.json();
-  };
+  if (!response.ok) {
+    throw new Error("An error has occured");
+
+  }
+  return await response.json();
+};
+
+export const deleteData = async (data) => {
+  const URL = "https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list";
+  const response = await fetch(URL, {
+    method: "DELETE",
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("An error has occured");
+
+  }
+  return await response.json();
+};

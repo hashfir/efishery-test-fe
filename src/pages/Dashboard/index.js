@@ -240,16 +240,25 @@ function Dashboard() {
     mutation.mutate(payload);
   };
 
-  const searchData = (e)=>{
-const dt = `{"komoditas":${e.target.value}}`
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      searchData(event)
+    }
+  }
+
+  const searchData = (e) => {
+    let param = e.target.value
+    const dt = `{"komoditas":"${param.toUpperCase()}"}`
+    // const dt = e.target.value
+
     setSearch(dt)
     setTimeout(() => {
       updateVisibility()
-    }, 1000);
+    }, 500);
   }
 
   return (
-    <div style={{marginTop:30}}>
+    <div style={{ marginTop: 30 }}>
       {isFetching || deletemutation.isLoading ? <LoaderComponent /> : <> </>}
       <div className='headertable'>
         <h3>List Of Data</h3>
@@ -257,7 +266,7 @@ const dt = `{"komoditas":${e.target.value}}`
           Add Data
         </button>
       </div>
-      <input className='search' type="search" placeholder='search...' onBlur={(e)=>searchData(e)}/>
+      <input className='search' type="search" placeholder='search...' onKeyPress={handleKeyPress} onBlur={(e) => searchData(e)} />
 
       <Table
         data={data}
