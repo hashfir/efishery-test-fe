@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { DropdownButton } from './dropdownButton';
 import '../component.css';
 import '../../index.css';
 import './table.css';
@@ -17,7 +18,8 @@ function Table({
   setOffset,
   updateVisibility,
   handleEdit,
-  handleDelete
+  handleDelete,
+  isMobile
 }) {
   const nextPage = () => {
     setOffset(offset + limit);
@@ -30,7 +32,7 @@ function Table({
     }
   };
   return (
-    <div>
+    <div className='table_wrapper'>
       <table style={{ width }} className={`table-${theme}`}>
         <thead>
           <tr className={`th-${theme}`}>
@@ -65,25 +67,37 @@ function Table({
                       : element.type === 'date'
                         ? (
                           <span>
-                            {el[element.field]!== null ? moment(el[element.field]).format(element.format):"NULL"}
+                            {el[element.field] !== null ? moment(el[element.field]).format(element.format) : "NULL"}
                           </span>
                         )
                         : element.type === 'action'
-                        ? (
-                          <span>
-                            <button className='button-13'  onClick={()=>handleEdit(el)}>
-                              Edit
-                              </button> 
-                              <button className='button-45'  onClick={()=>handleDelete(el[element.field])}>
-                              Delete
-                              </button> 
-                              </span>
-                        )
-                        : (
-                          <span>
-                            {el[element.field] === null ? 'NULL' : el[element.field]}
-                          </span>
-                        )}
+                          ? (
+                            <span>
+                              {
+                                isMobile ? <DropdownButton  
+                                data={el}
+                                element={element}
+                                editFunc={handleEdit}
+                                deleteFunc={handleEdit}
+                                />
+                                  : <>
+                                    <button className='button-13' onClick={() => handleEdit(el)}>
+                                      Edit
+                                    </button>
+                                    <button className='button-45' onClick={() => handleDelete(el[element.field])}>
+                                      Delete
+                                    </button>
+                                  </>
+                              }
+
+
+                            </span>
+                          )
+                          : (
+                            <span>
+                              {el[element.field] === null ? 'NULL' : el[element.field]}
+                            </span>
+                          )}
                   </td>
 
                 ))}

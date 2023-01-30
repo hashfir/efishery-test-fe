@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import JsonToForm from 'json-reactform';
 import { LoaderComponent, Table } from '../../component';
@@ -257,6 +257,19 @@ function Dashboard() {
     }, 500);
   }
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 820);
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div style={{ marginTop: 30 }}>
       {isFetching || deletemutation.isLoading ? <LoaderComponent /> : <> </>}
@@ -278,6 +291,7 @@ function Dashboard() {
         updateVisibility={updateVisibility}
         handleEdit={openModalEdit}
         handleDelete={openModalDelete}
+        isMobile={isMobile}
       />
 
       <Modal
