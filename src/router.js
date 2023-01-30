@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import {
   Dashboard,
   Login,
@@ -36,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/',
+    element: <Navigate replace to="/home/dashboard" />
   }
 ]);
 
