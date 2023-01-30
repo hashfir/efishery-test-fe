@@ -83,5 +83,17 @@
   box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
 
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 1000ms ease;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
 
 

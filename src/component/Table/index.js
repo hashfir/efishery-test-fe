@@ -71,12 +71,12 @@ function Table({
                         : element.type === 'action'
                         ? (
                           <span>
-                            <div onClick={()=>handleEdit(el)}>
-                              edit
-                              </div> 
-                              <div onClick={()=>handleDelete(el[element.field])}>
-                              delete
-                              </div> 
+                            <button className='button-13'  onClick={()=>handleEdit(el)}>
+                              Edit
+                              </button> 
+                              <button className='button-45'  onClick={()=>handleDelete(el[element.field])}>
+                              Delete
+                              </button> 
                               </span>
                         )
                         : (

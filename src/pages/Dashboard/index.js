@@ -19,7 +19,7 @@ const customStyles = {
   content: {
     width: "50%",
     margin: "auto",
-    height: "490px",
+    height: "430px",
     zIndex: 1300,
     borderRadius: 10,
     // justifyContent:"center",
@@ -249,7 +249,7 @@ const dt = `{"komoditas":${e.target.value}}`
   }
 
   return (
-    <div>
+    <div style={{marginTop:30}}>
       {isFetching || deletemutation.isLoading ? <LoaderComponent /> : <> </>}
       <div className='headertable'>
         <h3>List Of Data</h3>
